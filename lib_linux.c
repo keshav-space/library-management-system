@@ -2,13 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h> 
-#include <netdb.h> 
-#include <arpa/inet.h> 
-#include <sys/utsname.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <sys/types.h>
+#include <unistd.h>			//for sleep 
+#include <netdb.h>			//host data 
+#include <arpa/inet.h>		//for ip 
+#include <sys/utsname.h>	//for os info
+#include <dirent.h>			//for dir open close
+#include <sys/stat.h>		//for mkdir
+//#include <sys/types.h>
 #include <wchar.h>		//for  unicode	
 #include <locale.h>		//foir unicode
 
@@ -91,6 +91,7 @@ void showIssuedData(void);					//done
 void collectBook(void);						//done
 void primaryInitalize(void);				//done
 void primaryRecord(void);					//done
+void surveillance(void);					//done
 
 
 void gotoxy(int x,int y){
@@ -454,12 +455,12 @@ void viewBooks(void){
 
 	while(fread(&input, sizeof(struct book), 1, file) && ((ans[0]=='n')||(ans[0]=='N'))){
 		
-		system("clear");
+		printf("\033[2J");
     	border();
 		innerBorder();
 
 		gotoxy(40,15);
-		printf ("BookName: %s", input.bookName);
+		printf ("Book Name: %s", input.bookName);
 		gotoxy(40,17);
 		printf ("Book Id: %d",input.bookId);
 		gotoxy(40,19);
@@ -497,26 +498,24 @@ void searchBook(void){
     }
 
 	gotoxy(40,15);
-	printf("Enter book name|Id|Author|Genre: ");
+	printf("Enter book Name|Id|Author|Genre: ");
 	inputField();
 	fgets (ch,stringMax,stdin);
 	if ((p=strchr(ch, '\n')) != NULL){
         *p = '\0';
 	}
 
-	
-
 	while(fread(&input, sizeof(struct book), 1, file) && ((ans[0]=='n')||(ans[0]=='N')) ){
 		 
 		sprintf(c,"%d",input.bookId);
 		if(!pstrcmp(c,ch)  || !pstrcmp(input.bookName,ch) || (!pstrcmp(input.genre,ch)) || !pstrcmp(input.authName,ch)  ){
 			flag=0;
-			system("clear");
+			printf("\033[2J");
     		border();
 			innerBorder();
 
 			gotoxy(40,17);
-			printf ("BookName: %s", input.bookName);
+			printf ("Book Name: %s", input.bookName);
 			gotoxy(40,19);
 			printf ("Book Id: %d",input.bookId);
 			gotoxy(40,21);
@@ -530,7 +529,6 @@ void searchBook(void){
 			gotoxy(40,29);
 			printf ("Available Quantity: %d",input.avalQuantity);
 
-
 			gotoxy(40,33);
 			printf ("Enter N for next, Q to quit: (N|Q)");
 
@@ -540,7 +538,6 @@ void searchBook(void){
 
 		}
 	}
-
 
 	if(flag){
 	inputField();
@@ -569,25 +566,24 @@ void editBook(void){
     }
 
 	gotoxy(40,15);
-	printf("Enter book name|Id|Author|Genre you want to edit ");
+	printf("Enter book Name|Id|Author|Genre you want to edit ");
 
 	inputField();
 	fgets (ch,stringMax,stdin);
 	if ((p=strchr(ch, '\n')) != NULL)
         *p = '\0';
 	
-	//fseek(stdin,0,SEEK_END);
 
 	while(fread(&input, sizeof(struct book), 1, file)){
 		 sprintf(c,"%d",input.bookId);
 		if(!pstrcmp(c,ch)  || !pstrcmp(input.bookName,ch) || !pstrcmp(input.authName,ch) || !pstrcmp(input.genre,ch)){
 			
-			system("clear");
+			printf("\033[2J");
     		border();
 			innerBorder();
 
 			gotoxy(40,15);
-			printf ("BookName: %s", input.bookName);
+			printf ("Book Name: %s", input.bookName);
 			gotoxy(40,17);
 			printf ("Book Id: %d",input.bookId);
 			gotoxy(40,19);
@@ -616,7 +612,7 @@ void editBook(void){
 			}
 
 			else if(flag[0]=='y' || flag[0]=='Y'){
-				system("clear");
+				printf("\033[2J");
     			border();
 				innerBorder();
 				gotoxy(40,15);
@@ -689,14 +685,14 @@ void editBook(void){
 						break;				
 					}	
 				}
-				system("clear");
+				printf("\033[2J");
     			border();
 				innerBorder();
 
 				gotoxy(40,15);
 				printf("Updated record is: "); 
 				gotoxy(40,17);
-				printf ("BookName: %s", input.bookName);
+				printf ("Book Name: %s", input.bookName);
 				gotoxy(40,19);
 				printf ("Book Id: %d",input.bookId);
 				gotoxy(40,21);
@@ -732,7 +728,7 @@ void deleteBook(void){
     }
 
 	gotoxy(40,15);
-	printf("Enter book name|Id|Author|Genre you want to delete:");
+	printf("Enter book Name|Id|Author|Genre you want to delete:");
 	inputField();
 	fgets (ch,stringMax,stdin);
 	if ((p=strchr(ch, '\n')) != NULL)
@@ -742,12 +738,12 @@ void deleteBook(void){
 	while(fread(&input, sizeof(struct book), 1, file)){
 		sprintf(c,"%d",input.bookId);
 		if(!pstrcmp(c,ch)  || !pstrcmp(input.bookName,ch) || !pstrcmp(input.authName,ch) || !pstrcmp(input.genre,ch)){
-			system("clear");
+			printf("\033[2J");
     		border();
 			innerBorder();
 
 			gotoxy(40,15);
-			printf ("BookName: %s", input.bookName);
+			printf ("Book Name: %s", input.bookName);
 			gotoxy(40,17);
 			printf ("Book Id: %d",input.bookId);
 			gotoxy(40,19);
@@ -846,7 +842,7 @@ void issueBook(void){
         exit (1); 
     }
 	gotoxy(40,15);
-	printf("Enter book name|Id|Author|Genre you want to issue:");
+	printf("Enter book Name|Id|Author|Genre you want to issue:");
 	inputField();
 	fgets (ch,stringMax,stdin);
 	if ((p=strchr(ch, '\n')) != NULL)
@@ -860,11 +856,11 @@ void issueBook(void){
 		if(!pstrcmp(c,ch)  || !pstrcmp(input.bookName,ch) || !pstrcmp(input.authName,ch) || !pstrcmp(input.genre,ch)){
 			
 			flagAval=0;
-			system("clear");
+			printf("\033[2J");
     		border();
 			innerBorder();
 			gotoxy(40,15);
-			printf ("BookName: %s", input.bookName);
+			printf ("Book Name: %s", input.bookName);
 			gotoxy(40,17);
 			printf ("Book Id: %d",input.bookId);
 			gotoxy(40,19);
@@ -889,7 +885,7 @@ void issueBook(void){
 			if((flag[0]=='Y'|| flag[0]=='y') && input.avalQuantity!=0){
 				
 				input.avalQuantity--;// decrese aval quantity		
-				system("clear");
+				printf("\033[2J");
     			border();
 				innerBorder();
 				gotoxy(40,15);
@@ -963,7 +959,7 @@ void showIssuedData(void){
 
 	while(fread(&input, sizeof(borrower), 1, file) && ((ans[0]=='n')||(ans[0]=='N'))){
 		 
-		system("clear");
+		printf("\033[2J");
     	border();
 		innerBorder();
 		gotoxy(40,15);
@@ -1028,7 +1024,7 @@ void collectBook(void){
 
 		if(!pstrcmp(c,ch) && !pstrcmp(take.returnDate,"Not yet returned!")){
 
-			system("clear");
+			printf("\033[2J");
     		border();
 			innerBorder();
 
@@ -1119,134 +1115,52 @@ int main (){
 
 	int x=8,cr;
 	while (x){
-		system("clear");
+		printf("\033[2J");
     	menu();
     	border();
 		innerBorder();
     	inputField();
 		gotoxy(Ilux+2,Iluy+1);
-
 		scanf("%d",&x);
+
 		while ((cr = getchar()) != '\n' && cr != EOF);
 
-			if(x==1){
-				system("clear");
-    			border();
-				innerBorder();
-				addBooks(); 
-				usleep(1000000);
-               	 
-			} 
+		printf("\033[2J");
+    	border();
+		innerBorder();
 
-       		if(x==2){
-				system("clear");
-    			border();
-				innerBorder();
-				deleteBook(); 
-				usleep(1000000);
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-				
-			} 
+		if(x==1)
+			addBooks(); 
 
-       		if(x==3){
-				system("clear");
-    			border();
-				innerBorder();
-				searchBook(); 
-				usleep(1000000);
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-			} 
+  		else if(x==2)
+			deleteBook(); 	
 
-       		if(x==4){
-				system("clear");
-    			border();
-				innerBorder();
-				issueBook();
-				usleep(1000000);
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-			}
+       	else if(x==3)
+			searchBook(); 
 
-       		if(x==5){
-				system("clear");
-    			border();
-				innerBorder();
-				collectBook(); 
-				usleep(1000000);
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-			}	
+       	else if(x==4)
+			issueBook();
 
-       		if(x==6){
-				system("clear");
-    			border();
-				innerBorder();
-				editBook();
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-				
-			}
+       	else if(x==5)
+			collectBook(); 
 
-       		if(x==7){
-				system("clear");
-    			border();
-				innerBorder();
-				viewBooks();
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-				
-			}
+    	else if(x==6)
+			editBook();			
+
+       	else if(x==7)
+			viewBooks();
 	
-       		if(x==8){
-				system("clear");
-    			border();
-				innerBorder();
-				showIssuedData(); 
-				system("clear");
-    			menu();
-    			border();
-				innerBorder();
-    			inputField();
-				gotoxy(Ilux+2,Iluy+1);
-			}
+    	else if(x==8)
+			showIssuedData(); 
 			
-			if(x==9){
-				x=0;
-			}	  
-
-       		else{
-				system("clear");
-			}	   	
-		} 
-	
+		else if(x==9)
+			x=0;
+		
+		usleep(600000); 
+	} 
 	primaryRecord();
 	surveillance();
-	gotoxy(Ilux+2,Iluy+1);
+	printf("\033[2J");
+	gotoxy(0,0);
 	return 0; 
 } 
