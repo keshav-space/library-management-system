@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <io.h>			//windows directry handler
+#include <io.h>		//windows directry handler
 #include <sys/types.h>  // For stat().
 #include <sys/stat.h>   // For stat().
 #include <windows.h>
@@ -75,28 +75,28 @@ typedef struct surveil{
 	char endTime[stringMax];
 } surveil;
 
-int inputInt(void);							//done
-int pstrcmp(char *,char *); 				//done
-int DirectoryExists( const char* );			//done  //win specific
-int dateOp(int *dd,int *,int *,int *,int);	//done
-void addDate(int *,int *,int *,int);		//done
-void addBooks(void); 						//done
-void viewBooks(void);						//done
-void searchBook(void);						//done
-void editBook(void);						//done
-void deleteBook(void);						//done
-void issueBook(void);						//done	
-void showIssuedData(void);					//done
-void collectBook(void);						//done
-void primaryInitalize(void);				//done
-void primaryRecord(void);					//done
-void surveillance(void);					//done  //spy on user //win specific
-void innerBorder(void);						//done
-void gotoxy(int , int );					//done
-void inputField(void);						//done
-void border(void);							//done
-void menu(void);							//done
-void surveillance(void);					//done
+int inputInt(void);							
+int pstrcmp(char *,char *); 				
+int DirectoryExists( const char* );			 //win specific
+int dateOp(int *dd,int *,int *,int *,int);	
+void addDate(int *,int *,int *,int);		
+void addBooks(void); 						
+void viewBooks(void);						
+void searchBook(void);						
+void editBook(void);						
+void deleteBook(void);						
+void issueBook(void);							
+void showIssuedData(void);					
+void collectBook(void);						
+void primaryInitalize(void);				
+void primaryRecord(void);					
+void surveillance(void);					 //win specific
+void innerBorder(void);						
+void gotoxy(int , int );					
+void inputField(void);						
+void border(void);							
+void menu(void);							
+void surveillance(void);					
 
 
 void gotoxy(int x, int y){
