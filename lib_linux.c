@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <unistd.h>			//for sleep 
-#include <netdb.h>			//host data 
+#include <unistd.h>		//for sleep 
+#include <netdb.h>		//host data 
 #include <arpa/inet.h>		//for ip 
 #include <sys/utsname.h>	//for os info
-#include <dirent.h>			//for dir open close
+#include <dirent.h>		//for dir open close
 #include <sys/stat.h>		//for mkdir
 //#include <sys/types.h>
 #include <wchar.h>		//for  unicode	
@@ -72,26 +72,26 @@ typedef struct book {
 	char genre[stringMax];
 } book;
 
-int pstrcmp(char *,char *); 				//done
-int dateOp(int *dd,int *,int *,int *,int);	//done
-int inputInt(void);							//done
-void addDate(int *,int *,int *,int);		//done
-void menu(void);							//done
-void border(void);							//done
-void innerBorder(void);						//done
-void gotoxy(int x,int y);					//done
-void addBooks(void); 						//done
-void inputField(void);						//done
-void viewBooks(void);						//done
-void searchBook(void);						//done
-void editBook(void);						//done
-void deleteBook(void);						//done
-void issueBook(void);						//done	
-void showIssuedData(void);					//done
-void collectBook(void);						//done
-void primaryInitalize(void);				//done
-void primaryRecord(void);					//done
-void surveillance(void);					//done
+int pstrcmp(char *,char *); 				
+int dateOp(int *dd,int *,int *,int *,int);	
+int inputInt(void);							
+void addDate(int *,int *,int *,int);		
+void menu(void);							
+void border(void);							
+void innerBorder(void);						
+void gotoxy(int x,int y);					
+void addBooks(void); 						
+void inputField(void);						
+void viewBooks(void);						
+void searchBook(void);						
+void editBook(void);						
+void deleteBook(void);						
+void issueBook(void);							
+void showIssuedData(void);					
+void collectBook(void);						
+void primaryInitalize(void);				
+void primaryRecord(void);					
+void surveillance(void);					
 
 
 void gotoxy(int x,int y){
